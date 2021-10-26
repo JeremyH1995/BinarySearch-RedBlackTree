@@ -1,21 +1,25 @@
-#include <iostream>
+#ifndef BINARYSEARCHTREE_H
+#define BINARYSEARCHTREE_H
 
 using namespace std;
 
-struct node{
-    string key;
-    struct node *left, *right;
+struct Node{
+    Node(string str);
+    string word;
+    struct Node *left, *right, *parent;
 };
 
 class BST {
 
-    node *root;
+    private:
+
+    Node *root;
 
     public:
 
-    node *getRootNode();
+    BST();
 
-    struct node *newNode(string item);
+    Node *getRootNode();
 
     void printParentKey(string key);
 
@@ -25,11 +29,12 @@ class BST {
 
     void printPathToRoot(string key);
 
-    void inorder(node *n);
+    void inorder(Node *n);
 
     void insert(string str);
 
     bool search(string str);
 
-
 };
+
+#endif

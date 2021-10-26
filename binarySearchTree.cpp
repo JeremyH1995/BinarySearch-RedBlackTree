@@ -2,75 +2,88 @@
 
 using namespace std;
 
-struct node{
-    string key;
-    struct node *left, *right, *parent;
+struct Node{
+    Node(string str):word(str), left(nullptr), right(nullptr), parent(nullptr) {}
+    string word;
+    struct Node *left, *right, *parent;
 };
 
 class BST {
 
-    node *root;
+
+
+    private:
+
+    Node *root;
 
     public:
 
-    node *getRootNode(){
+    BST(){
+        root = nullptr;
+    }
+
+    Node * BST::getRootNode(){
         return root;
     }
 
-    struct node *newNode(string item) {
-        struct node *temp = (struct node *)malloc(sizeof(struct node));
-        temp->key = item;
-        temp->left = temp->right = NULL;
-        return temp;
-    }
-
     void printParentKey(string key){
-        node *n = search(root, key);
-        printf("The parent of %s is %s\n", key, n->parent->key);
+        Node *n = search(root, key);
+        printf("The parent of %s is %s\n", key, n->parent->word);
     }
 
     void printLeftChild(string key){
-        node *n = search(root, key);
-        printf("The left child of %s is %s\n", n->key, n->left->key);
+        Node *n = search(root, key);
+        printf("The left child of %s is %s\n", n->word, n->left->word);
     }
 
     void printRightChild(string key){
-        node *n = search(root, key);
-        printf("The right child of %s is %s\n", n->key, n->right->key);
+        Node *n = search(root, key);
+        printf("The right child of %s is %s\n", n->word, n->right->word);
     }
 
     void printPathToRoot(string key){
-        node *n = search(root, key);
-        printf("Path to Root from %s", key);
+        Node *n = search(root, key);
+        printf("Path to Root from %s\n", key);
         while(n->parent != nullptr){
             printf("%s\n", n->parent);
         }
     }
 
-    void inorder(node *n){
+    void inorder(Node *n){
         if(n != nullptr){
             inorder(n->left);
-            cout << n->key << endl;
+            cout << n->word << endl;
             inorder(n->right);
         }
     }
 
-    void insert(string str){
-        if(root == nullptr) 
-            newNode(str);
+    void insert(string word){
+        if(root == nullptr){
+            root = new Node(word);
+        } 
+        else{
+            Node *newNode = new Node(word);
+            Node *find = root;
+            while(find != nullptr){
+                newNode->parent = find;
+                if(newNode->word < find->word)
+                    find = find->left;
+                else
+                    find = find->right;
+            }
+            if(newNode->word < newNode->parent->word)
+                newNode->parent->left = newNode;
+            else
+                newNode->parent->right = newNode;
+        }
     }
 
-    node *search(node *n, string str){
-        if(n != nullptr | str == n->key)
+    Node * search(Node *n, string str){
+        if(n != nullptr | str == n->word)
             return n;
-        if(str < n->key)
+        if(str < n->word)
             return search(n->left, str);
         else
             return search(n->right, str);
     }
-
-    
-
-
-
 };
