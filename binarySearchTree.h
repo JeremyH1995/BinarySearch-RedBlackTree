@@ -26,6 +26,10 @@ class BST {
         return root;
     }
 
+    Node * newNode(string word){
+        return new Node(word);
+    }
+
     void printParentKey(string key){
         Node *n = search(root, key);
         printf("The parent of %s is %s\n", key, n->parent->word);

@@ -48,11 +48,14 @@ int main(){
     int menuChoice = 0;
     int fileTypeChoice = 0;
     int fileChoice = 0;
+    int treeChoice = 0;
     int n = 0;
+    string searchWord;
     string find, str;
     string files[10];
     string *words;
     BST BST;
+    Node * found;
 
      while(true){
         cout << "Enter which instruction you would like to execute." << endl;
@@ -73,6 +76,37 @@ int main(){
         if(menuChoice == 0) break;
 
         if(menuChoice == 1){
+            cout << "Which tree you would like to search?" << endl;
+            cout << "1: Binary Search Tree" << endl;
+            cout << "2: Red Black Tree" << endl;
+            cout << "0: Exit" << endl;
+            cout << "Choice: ";
+            cin >> treeChoice;
+            cout << "\n\n";
+
+            while(treeChoice < 0 || treeChoice > 2){
+                cout << "Invalid Input." << endl;
+                cout << "Choice: ";
+                cin >> treeChoice;
+            }
+
+            if(treeChoice == 0) break;
+
+            if(treeChoice == 1){
+                cout << "Type a word you would like to search for:";
+                cin >> searchWord;
+                cout << "\n\n\n";
+
+                found = BST.search(BST.getRootNode(), searchWord);
+
+                if(found != nullptr)
+                    cout << searchWord << " was found" << endl;
+                else if(found == nullptr)
+                    cout << searchWord << " was not found" << endl;
+            }
+            else if(treeChoice == 2){
+                //search Red Black Tree
+            }
 
         }
         else if(menuChoice == 2){
