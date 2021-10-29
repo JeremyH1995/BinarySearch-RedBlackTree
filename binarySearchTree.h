@@ -5,6 +5,7 @@
 using namespace std;
 
 struct Node{
+    Node(){}
     Node(string str, string col):word(str), color(col), left(nullptr), right(nullptr), parent(nullptr) {}
     string word;
     string color;
@@ -16,19 +17,23 @@ class BST {
     private:
 
     Node *root;
+    Node *NIL;
+    
+    const string BLACK = "black";
+    const string RED = "red";
 
     public:
 
     BST(){
-        root = nullptr;
+        NIL = new Node;
+        NIL->color = BLACK;
+        NIL->left = nullptr;
+        NIL->right = nullptr;
+        root = NIL;
     }
 
     Node * getRootNode(){
         return root;
-    }
-
-    Node * newNode(string word){
-        return new Node(word, "none");
     }
 
     void printParentKey(string key){
@@ -49,7 +54,7 @@ class BST {
     void printPathToRoot(string key){
         Node *n = search(root, key);
         printf("Path to Root from %s\n", key);
-        while(n->parent != nullptr){
+        while(n->parent != NIL){
             printf("%s\n", n->parent);
         }
     }
@@ -84,7 +89,7 @@ class BST {
     }
 
     Node * search(Node *n, string str){
-        if(n != nullptr | str == n->word)
+        if(n == NIL | str == n->word)
             return n;
         if(str < n->word)
             return search(n->left, str);

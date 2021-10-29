@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 class RBT{
 
     private:
@@ -13,24 +12,31 @@ class RBT{
     const string RED = "red";
 
     Node *root;
+    Node * NIL;
 
     public:
 
     RBT(){
-        root = nullptr;
+        NIL = new Node;
+        NIL->color = BLACK;
+        NIL->left = nullptr;
+        NIL->right = nullptr;
+        NIL->parent = nullptr;
+        root = NIL;
     }
 
     Node * getRootNode(){
         return root;
     }
 
-    Node * newNode(string word, string col){
-        return new Node(word, col);
-    }
-
     void printParentKey(string key){
         Node *n = search(root, key);
         printf("The parent of %s is %s\n", key, n->parent->word);
+    }
+
+    void printUncleColor(string key){
+        Node *n = search(root, key);
+        printf("The Uncle Nodes color is %s", n->parent->parent->right->color);
     }
 
     void printLeftChild(string key){
@@ -46,56 +52,62 @@ class RBT{
     void printPathToRoot(string key){
         Node *n = search(root, key);
         printf("Path to Root from %s\n", key);
-        while(n->parent != nullptr){
+        while(n->parent != NIL){
             printf("%s\n", n->parent);
         }
     }
 
+    void printColor(string key){
+        Node * n = search(root, key);
+        if(n != NIL)
+            printf("The color of %s is %s", key, n->color);
+        else
+            printf("key does not exist");
+    }
+
     void inorder(Node *n){
-        if(n != nullptr){
+        if(n != NIL){
             inorder(n->left);
             cout << n->word << " || color: " << n->color << endl;
             inorder(n->right);
         }
     }
 
-    void insert(string word){
-       Node * n = new Node(word, RED);
-       Node * y = nullptr;
-       Node * x = root;
+   void insert(string word){
+       
+        Node * node = new Node;
+        node->parent = nullptr;
+        node->word = word;
+        node->left = NIL;
+        node->right = NIL;
+        node->color = RED;
+        Node * x = root;
+        Node * y = NIL;
 
-       while(x != nullptr){
-           y = x;
-           if(n->word < x->word){
-               x = x->left;
-           }
-           else{
-               x = x->right;
-           }
-       }
+        while(x != NIL){
+            y = x;
+            if(node->word < x->word)
+                x = x->left;
+            else
+                x = x->right;
+        }
 
-       n->parent = y;
-       if(y == nullptr){
-           root = n;
-       }
-       else if(n->word < y->word){
-           y->left = n;
-       }
-       else{
-           y->right = n;
-       }
+        node->parent = y;
+        if(y == NIL)
+            root = node;
+        else if(node->word < y->word)
+            y->left = node;
+        else
+            y->right = node;
 
-       if(n->parent == nullptr){
-           n->color = BLACK;
-           return;
-       }
+        node->left = NIL;
+        node->right = NIL;
+        node->color = RED;
 
-       if(n->parent->parent == nullptr){
-           return;
-       }
-
-       insertFixup(n);
+        insertFixup(node);
+        
     }
+
 
     void insertFixup(Node * n){
         Node * temp;
@@ -139,18 +151,18 @@ class RBT{
             if(n == root){
                 break;
             }
-            root->color = BLACK;
         }
+        root->color = BLACK;
     }
 
     void leftRotate(Node * n){
         Node * temp = n->right;
         n->right = temp->left;
-        if(temp->left != nullptr){
+        if(temp->left != NIL){
             temp->left->parent = n;
         }
         temp->parent = n->parent;
-        if(n->parent == nullptr){
+        if(n->parent == NIL){
             root = temp;
         }
         else if(n == n->parent->left){
@@ -166,11 +178,11 @@ class RBT{
     void rightRotate(Node * n){
         Node * temp = n->left;
         n->left = temp->right;
-        if(temp->right != nullptr){
+        if(temp->right != NIL){
             temp->right->parent = n;
         }
         temp->parent = n->parent;
-        if(n->parent == nullptr){
+        if(n->parent == NIL){
             root = temp;
         }
         else if(n == n->parent->right){
@@ -184,7 +196,7 @@ class RBT{
     }
 
     Node * search(Node *n, string str){
-        if(n != nullptr | str == n->word)
+        if(n == NIL || str == n->word)
             return n;
         if(str < n->word)
             return search(n->left, str);
