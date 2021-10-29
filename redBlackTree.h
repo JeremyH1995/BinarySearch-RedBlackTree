@@ -46,7 +46,7 @@ class RBT{
 
     void printPathToRootHelper(Node * node){
       
-       std::cout << " -> " << node->word;
+       std::cout << " -> " << node->word << "\tcolor: " << node->color;
 
         if(node->parent == NIL)
             return;
@@ -58,9 +58,9 @@ class RBT{
     void printPathToRoot(string key){
         Node * node = search(root, key);
         if(node != NIL){
-            cout << node->word;
+            std::cout << node->word << "\tcolor: " << node->color;
             printPathToRootHelper(node->parent);
-            cout << endl;
+            std::cout << endl;
         }
         else{
             std::cout << "node is null" << endl;
@@ -70,7 +70,7 @@ class RBT{
     void inorder(Node *n){
         if(n != NIL){
             inorder(n->left);
-            std::cout << n->word << " color: " << n->color <<  endl;
+            std::cout << n->word << "\tcolor: " << n->color <<  endl;
             inorder(n->right);
         }
     }
@@ -78,7 +78,18 @@ class RBT{
 
     void printUncleColor(string key){
         Node *n = search(root, key);
-        std::cout << "The Uncle nodes color is " << n->parent->parent->right->color << endl;
+        if(n != NIL)
+            std::cout << "The Uncle nodes color is " << n->parent->parent->right->color << endl;
+        else
+            std::cout << "key does not exist" << endl;
+    }
+
+    void printParentColor(string key){
+        Node *n = search(root, key);
+        if(n != NIL)
+            std::cout << "The Parent nodes color is " << n->parent->color << endl;
+        else
+            std::cout << "key does not exist" << endl;
     }
 
    
@@ -88,7 +99,7 @@ class RBT{
         if(n != NIL)
             std::cout << "The color of " << key << " is " << n->color << endl;
         else
-            printf("key does not exist");
+            std::cout << "key does not exist" << endl;
     }
 
    void insert(string word){

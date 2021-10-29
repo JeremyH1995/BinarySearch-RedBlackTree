@@ -44,12 +44,18 @@ class BST {
 
     void printLeftChild(string key){
         Node *n = search(root, key);
-        std::cout << "The left child of " << key << " is " << n->left->word << endl;
+        if(n != NIL)
+            std::cout << "The left child of " << key << " is " << n->left->word << endl;
+        else
+            std::cout << "The left child of " << key << " is " << NIL->word;
     }
 
     void printRightChild(string key){
         Node *n = search(root, key);
-       std::cout << "The right child of " << key << " is " << n->right->word << endl;
+         if(n != NIL)
+            std::cout << "The right child of " << key << " is " << n->left->word << endl;
+        else
+            std::cout << "The right child of " << key << " is " << NIL->word;
     }
 
     void printPathToRootHelper(Node * node){
