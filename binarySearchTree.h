@@ -5,7 +5,7 @@
 using namespace std;
 
 struct Node{
-    Node(){}
+    Node(string str):word(str), color("none"), left(nullptr), right(nullptr), parent(nullptr){}
     Node(string str, string col):word(str), color(col), left(nullptr), right(nullptr), parent(nullptr) {}
     string word;
     string color;
@@ -25,10 +25,11 @@ class BST {
     public:
 
     BST(){
-        NIL = new Node;
+        NIL = new Node("NIL");
         NIL->color = BLACK;
         NIL->left = nullptr;
         NIL->right = nullptr;
+        NIL->parent = NIL;
         root = NIL;
     }
 
@@ -38,63 +39,94 @@ class BST {
 
     void printParentKey(string key){
         Node *n = search(root, key);
-        printf("The parent of %s is %s\n", key, n->parent->word);
+        std::cout << "The parent of " << key << " is " << n->parent->word << endl;
     }
 
     void printLeftChild(string key){
         Node *n = search(root, key);
-        printf("The left child of %s is %s\n", n->word, n->left->word);
+        std::cout << "The left child of " << key << " is " << n->left->word << endl;
     }
 
     void printRightChild(string key){
         Node *n = search(root, key);
-        printf("The right child of %s is %s\n", n->word, n->right->word);
+       std::cout << "The right child of " << key << " is " << n->right->word << endl;
+    }
+
+    void printPathToRootHelper(Node * node){
+      
+       std::cout << " -> " << node->word;
+
+        if(node->parent == NIL)
+            return;
+
+       printPathToRootHelper(node->parent);
+        
     }
 
     void printPathToRoot(string key){
-        Node *n = search(root, key);
-        printf("Path to Root from %s\n", key);
-        while(n->parent != NIL){
-            printf("%s\n", n->parent);
+        Node * node = search(root, key);
+        if(node != NIL){
+            cout << node->word;
+            printPathToRootHelper(node->parent);
+            cout << endl;
+        }
+        else{
+            std::cout << "node is null" << endl;
         }
     }
 
     void inorder(Node *n){
-        if(n != nullptr){
+        if(n != NIL){
             inorder(n->left);
-            cout << n->word << endl;
+            std::cout << n->word << endl;
             inorder(n->right);
         }
     }
 
     void insert(string word){
-        if(root == nullptr){
-            root = new Node(word, "none");
-        } 
-        else{
-            Node *newNode = new Node(word, "none");
-            Node *find = root;
-            while(find != nullptr){
-                newNode->parent = find;
-                if(newNode->word < find->word)
-                    find = find->left;
-                else
-                    find = find->right;
-            }
-            if(newNode->word < newNode->parent->word)
-                newNode->parent->left = newNode;
-            else
-                newNode->parent->right = newNode;
-        }
-    }
 
-    Node * search(Node *n, string str){
-        if(n == NIL | str == n->word)
-            return n;
-        if(str < n->word)
-            return search(n->left, str);
+        if(root == NIL){
+            root = new Node(word);
+            root->left = NIL;
+            root->right = NIL;
+            root ->parent = NIL;
+            return;
+        }
+       
+        Node * node = new Node(word);
+        node->parent = nullptr;
+        node->left = NIL;
+        node->right = NIL;
+        Node * x = root;
+        Node * y = NIL;
+
+        while(x != NIL){
+            y = x;
+            if(node->word < x->word)
+                x = x->left;
+            else
+                x = x->right;
+        }
+
+        node->parent = y;
+        if(y == NIL)
+            root = node;
+        else if(node->word < y->word)
+            y->left = node;
         else
-            return search(n->right, str);
+            y->right = node;
+
+        node->left = NIL;
+        node->right = NIL;
+        
+    }
+    Node * search(Node *n, string key){
+      if(n == NIL || key == n->word)
+        return n;
+      if(key < n->word)
+        return search(n->left, key);
+      else
+        return search(n->right, key);
     }
 };
 

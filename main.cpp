@@ -63,6 +63,10 @@ int main(){
     clock_t start;
     clock_t end;
 
+
+    
+    
+
      while(true){
         cout << "Enter which instruction you would like to execute." << endl;
         cout << "1: Search for Word" << endl;
@@ -154,6 +158,7 @@ int main(){
                     cout << j << ": " << str << endl;
                     files[j - 1] = str;
                 }     
+                cout << "0: Exit" << endl;
                 cout << "Choice: ";
                 cin >> fileChoice;
                 cout << "\n\n";
@@ -178,7 +183,6 @@ int main(){
                     cout << "Here is the results of your insertion: " << endl;
                     BST.inorder(BST.getRootNode());
                     cout << "Time for insertion was " << (end - start) / (double)(CLOCKS_PER_SEC) << " seconds" << endl;
-
             }    
             else if(menuChoice == 3){
                 cout << "Enter which type of file you wish to import." << endl;
@@ -209,7 +213,8 @@ int main(){
                     str = find + to_string(15*j) + "K.txt";
                     cout << j << ": " << str << endl;
                     files[j - 1] = str;
-                }     
+                }
+                cout << "0: Exit" << endl;  
                 cout << "Choice: ";
                 cin >> fileChoice;
                 cout << "\n\n";

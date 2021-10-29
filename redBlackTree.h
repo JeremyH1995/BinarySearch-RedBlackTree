@@ -17,7 +17,7 @@ class RBT{
     public:
 
     RBT(){
-        NIL = new Node;
+        NIL = new Node("NIL");
         NIL->color = BLACK;
         NIL->left = nullptr;
         NIL->right = nullptr;
@@ -29,55 +29,81 @@ class RBT{
         return root;
     }
 
-    void printParentKey(string key){
+     void printParentKey(string key){
         Node *n = search(root, key);
-        printf("The parent of %s is %s\n", key, n->parent->word);
-    }
-
-    void printUncleColor(string key){
-        Node *n = search(root, key);
-        printf("The Uncle Nodes color is %s", n->parent->parent->right->color);
+        std::cout << "The parent of " << key << " is " << n->parent->word << endl;
     }
 
     void printLeftChild(string key){
         Node *n = search(root, key);
-        printf("The left child of %s is %s\n", n->word, n->left->word);
+        std::cout << "The left child of " << key << " is " << n->left->word << endl;
     }
 
     void printRightChild(string key){
         Node *n = search(root, key);
-        printf("The right child of %s is %s\n", n->word, n->right->word);
+       std::cout << "The right child of " << key << " is " << n->right->word << endl;
+    }
+
+    void printPathToRootHelper(Node * node){
+      
+       std::cout << " -> " << node->word;
+
+        if(node->parent == NIL)
+            return;
+
+       printPathToRootHelper(node->parent);
+        
     }
 
     void printPathToRoot(string key){
-        Node *n = search(root, key);
-        printf("Path to Root from %s\n", key);
-        while(n->parent != NIL){
-            printf("%s\n", n->parent);
+        Node * node = search(root, key);
+        if(node != NIL){
+            cout << node->word;
+            printPathToRootHelper(node->parent);
+            cout << endl;
         }
-    }
-
-    void printColor(string key){
-        Node * n = search(root, key);
-        if(n != NIL)
-            printf("The color of %s is %s", key, n->color);
-        else
-            printf("key does not exist");
+        else{
+            std::cout << "node is null" << endl;
+        }
     }
 
     void inorder(Node *n){
         if(n != NIL){
             inorder(n->left);
-            cout << n->word << " || color: " << n->color << endl;
+            std::cout << n->word << " color: " << n->color <<  endl;
             inorder(n->right);
         }
     }
 
+
+    void printUncleColor(string key){
+        Node *n = search(root, key);
+        std::cout << "The Uncle nodes color is " << n->parent->parent->right->color << endl;
+    }
+
+   
+
+    void printColor(string key){
+        Node * n = search(root, key);
+        if(n != NIL)
+            std::cout << "The color of " << key << " is " << n->color << endl;
+        else
+            printf("key does not exist");
+    }
+
    void insert(string word){
+
+       if(root == NIL){
+            root = new Node(word);
+            root->left = NIL;
+            root->right = NIL;
+            root ->parent = NIL;
+            root->color = BLACK;
+            return;
+        }
        
-        Node * node = new Node;
-        node->parent = nullptr;
-        node->word = word;
+        Node * node = new Node(word);
+        node->parent = NIL;
         node->left = NIL;
         node->right = NIL;
         node->color = RED;
