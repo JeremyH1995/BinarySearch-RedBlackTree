@@ -5,8 +5,9 @@
 using namespace std;
 
 struct Node{
-    Node(string str):word(str), left(nullptr), right(nullptr), parent(nullptr) {}
+    Node(string str, string col):word(str), color(col), left(nullptr), right(nullptr), parent(nullptr) {}
     string word;
+    string color;
     struct Node *left, *right, *parent;
 };
 
@@ -27,7 +28,7 @@ class BST {
     }
 
     Node * newNode(string word){
-        return new Node(word);
+        return new Node(word, "none");
     }
 
     void printParentKey(string key){
@@ -63,10 +64,10 @@ class BST {
 
     void insert(string word){
         if(root == nullptr){
-            root = new Node(word);
+            root = new Node(word, "none");
         } 
         else{
-            Node *newNode = new Node(word);
+            Node *newNode = new Node(word, "none");
             Node *find = root;
             while(find != nullptr){
                 newNode->parent = find;
