@@ -89,7 +89,7 @@ int main(){
             cout << "Binary Search Tree Options:" << endl;
             cout << "1: Construct Tree" << endl;
             cout << "2: Search for word" << endl;
-            cout << "3 Inorder Traversal" << endl;
+            cout << "3  Inorder Traversal" << endl;
             cout << "4: Print Parent Key" << endl;
             cout << "5: Print Left Child" << endl;
             cout << "6: Print Right Child" << endl;
@@ -158,8 +158,6 @@ int main(){
                             BST.insert(words[i]);
                         }
                         end = clock();
-                        cout << "Here is the results of your insertion: " << endl;
-                        BST.inorder(BST.getRootNode());
                         cout << "Time for insertion was " << (end - start) / (double)(CLOCKS_PER_SEC) << " seconds" << endl;
             }
             else if(menuChoice == 2){
@@ -214,7 +212,7 @@ int main(){
             cout << "Red Black Tree Options:" << endl;
             cout << "1: Construct Tree" << endl;
             cout << "2: Search for word" << endl;
-            cout << "3 Inorder Traversal" << endl;
+            cout << "3  Inorder Traversal" << endl;
             cout << "4: Print Parent Key" << endl;
             cout << "5: Print Left Child" << endl;
             cout << "6: Print Right Child" << endl;
@@ -286,8 +284,6 @@ int main(){
                             RBT.insert(words[i]);
                         }
                         end = clock();
-                        cout << "Here is the results of your insertion: " << endl;
-                        RBT.inorder(RBT.getRootNode());
                         cout << "Time for insertion was " << (end - start) / (double)(CLOCKS_PER_SEC) << " seconds" << endl;
             }
             else if(menuChoice == 2){
